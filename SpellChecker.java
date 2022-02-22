@@ -23,7 +23,7 @@ public class SpellChecker {
       }
       System.out.println("Dicitonary loaded...");
       
-      x.print();    // DELETE ME
+       // x.print();    // DELETE ME
 
       sk = new Scanner(System.in);
       
@@ -34,7 +34,19 @@ public class SpellChecker {
 	  			System.out.println(word + " is correct.");
         else {
 	  			System.out.println("Suggesting alternatives ...");
-          // TODO: Code to do the spell checker. Look into the StringSet for all possible alternatives of the input word mis-spelled by one character.
+
+          for (int i = 0; i < word.length(); i++) {
+            StringBuffer sb = new StringBuffer(word);
+
+            for (char c = 'a'; c <= 'z'; c++) {
+              sb.setCharAt(i, c);
+
+              String str = sb.toString();
+
+              if (!str.equals(word) && x.find(str))
+                System.out.println(str);
+            }
+          }
 				}
       }
 			

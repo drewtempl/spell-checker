@@ -27,30 +27,28 @@ public class StringSet {
       size *= 2;
       StringNode[] oldTable = table;
       table = new StringNode[size];
+      numelements = 0;
 
       for (int i = 0; i < oldTable.length; i++) {
         StringNode node = oldTable[i];
   
         while (node != null) {
-          insert(node.getKey());
+          int hash = hash(node.getKey());
+          
+          if (table[hash] == null) 
+            numelements++;
+          
+          table[hash] = new StringNode(node.getKey(), table[hash]);
           node = node.getNext();
         }
       }
     }
     
     int hash = hash(key);
-    StringNode node = null;
-
-    if (!find(key)) {
-      node = new StringNode(key, null);
+    if (table[hash] == null)
       numelements++;
-    }
-
-    else {
-      node = new StringNode(key, table[hash]);
-    }
-
-    table[hash] = node;
+      
+    table[hash] = new StringNode(key, table[hash]);
   }
 
   /*
@@ -58,7 +56,18 @@ public class StringSet {
    */
   public boolean find(String key) {
     
-    return table[hash(key)] != null;
+    int hash = hash(key);
+    boolean found = false;
+    StringNode node = table[hash];
+
+    while (node != null && !found) {
+      if (node.getKey().equals(key))
+        found = true;
+
+      node = node.getNext();
+    }
+
+    return found;
   }
 
   /*
@@ -87,8 +96,6 @@ public class StringSet {
       h = (h * x + (int) k.charAt(i)) % size;
     }
 
-    // TODO: Compute a polynomial hash function for the String k. Make sure that the hash value h returned is a proper index 
-    // in the hash table, ie. in the range [0...capacity-1]. 
     return h;
   }
 
