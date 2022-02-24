@@ -1,10 +1,12 @@
 public class Node {
     
-    private double data;
-    private Node next;
+    public double xCord;
+    public double yCord;
+    public Node next;
 
-    public Node (double data, Node next) {
-        this.data = data;
+    public Node (double x, double y, Node next) {
+        xCord = x;
+        yCord = y;
         this.next = next;
     }
 }
