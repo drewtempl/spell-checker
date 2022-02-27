@@ -22,9 +22,7 @@ public class Closest {
                 int xCord = hash(x);
                 int yCord = hash(y);
 
-                grid[xCord][yCord] = new Node(x, y, grid[xCord][yCord]);
-
-                Node node = grid[xCord][yCord];
+                Node node = grid[xCord][yCord] = new Node(x, y, grid[xCord][yCord]);
 
                 for (int i = xCord - 1; i <= xCord + 1 && i < b; i++) {
                     if (i < 0)
