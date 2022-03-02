@@ -8,6 +8,8 @@ public class Closest {
     public static void main(String[] args) {
 
         Node[][] grid = new Node[b][b];
+        HashTable table = new HashTable(b);
+
 
         File f = new File("points.txt");
         double min = 2;
@@ -22,16 +24,19 @@ public class Closest {
                 int xCord = hash(x);
                 int yCord = hash(y);
 
-                Node node = grid[xCord][yCord] = new Node(x, y, grid[xCord][yCord]);
+                if (!table.find(yCord))
+                    table.insert(yCord);
 
-                for (int i = xCord - 1; i <= xCord + 1 && i < b; i++) {
+                Node node = grid[yCord][xCord] = new Node(x, y, grid[yCord][xCord]);
+
+                for (int i = yCord - 1; table.find(yCord) && i <= yCord + 1 && i < b; i++) {
                     if (i < 0)
                         i = 0;
 
-                    for (int j = yCord - 1; j <= yCord + 1 && j < b; j++) {
+                    for (int j = xCord - 1; j <= xCord + 1 && j < b; j++) {
                         if (j < 0)
                             j = 0;
-
+                        
                         Node comp = grid[i][j];
 
                         while (comp != null) {
@@ -62,6 +67,14 @@ public class Closest {
     private static int hash(double k) {
         return (int) (k * b) % b;
     }
+
+    // private static int hash(double k) {
+    //     return (int) Math.floor((k * b));
+    // }
+
+    // private static int hash(double k) {
+    //     return (int) (1117 * k) % b;
+    // }
 
     private static double dist(Node a, Node b) {
         return Math.sqrt(Math.pow((a.xCord - b.xCord), 2) +
